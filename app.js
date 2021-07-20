@@ -1,56 +1,10 @@
-const logger = require('koa-logger')
-const responseTime = require('koa-response-time')
-const bodyParser = require('koa-bodyparser')
-const ratelimit = require('koa-ratelimit')
-const Router = require('koa-router')
-const Koa = require('koa')
-
-const app = new Koa()
-
-app.use(logger())
-app.use(responseTime())
-app.use(bodyParser())
-
-const ratelimitВb = new Map()
-
-app.use(ratelimit({
-  driver: 'memory',
-  db: ratelimitВb,
-  duration: 1000 * 30,
-  errorMessage: {
-    ok: false,
-    error: {
-      code: 429,
-      message: 'rate limit'
-    }
-  },
-  id: (ctx) => ctx.ip,
-  headers: {
-    remaining: 'Rate-Limit-Remaining',
-    reset: 'Rate-Limit-Reset',
-    total: 'Rate-Limit-Total'
-  },
-  max: 10,
-  disableHeader: false,
-  whitelist: (ctx) => {
-    return ctx.hostname === 'localhost'
-  },
-  blacklist: (ctx) => {
-  }
-}))
-
-app.use(require('./helpers').helpersApi)
-
-const route = new Router()
-
-const routes = require('./routes')
-
-route.use('/*', routes.routeApi.routes())
-
-app.use(route.routes())
-
-const port = process.env.PORT || 3000
-
-app.listen(port, () => {
-  console.log('Listening on localhost, port', port)
-})
+SESSION_NAME=BAB7iVMrqKqSJabCT0fatIdmw-7Uvcwa5DW3ZuUWxbZXJ-4-ILFoAVcOenD1MpK33Ayrr3cw3DDNjjPnfH1LkeOdRSlz2gPoG2sJPXy6mLBRMfbb6wkuSEX4UaAdek50hhJXQYf9z5sp6VuacV-9T5kqrRYh1cCEjdSrI7C0RWlnTwSDnp19L_SGyHBmiuQUtJhrLb0HweIIBun0IEfQCFJ3w3xhd6N50Ov1jEvKiGgsnD-dCGPPk23fw7YM46goxD1B1DBISLzXvhGzORDfnc__umJ7cGQY_o1ZlwKXEPpJH0pc1OAEvINs-dxWIdMYoDS1vB3qI55O5oJBmMAskvM-Ym9cYAA
+BOT_TOKEN=1925317776:AAGhhRhnMNtoAv5RFbPPASNjg3URpkWT_60
+BOT_NAME=Ritim Music
+API_ID=7859006
+API_HASH=ea5749d93b989f1bbd2e6b8a037dcb8b
+SUDO_USERS=1021875240 1641674871
+DURATION_LIMIT=10
+ARQ_API_KEY=TSNJRF-IJHCBL-WYTBMZ-CYPASO-ARQ
+UPDATES_CHANNEL=NetdBots
+BG_IMAGE=https://telegra.ph/file/4818310ad3e969b28a52e.jpg
